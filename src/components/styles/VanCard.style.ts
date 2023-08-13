@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const getVanColor = (type: string) => {
     switch (type.toLowerCase()) {
@@ -13,8 +14,11 @@ export const getVanColor = (type: string) => {
     }
 }
 
-export const StyledCardContainer = styled.div`
+export const StyledCardContainer = styled(Link)`
+    text-decoration: none;
     width: 229px;
+    color: #161616;
+    
     cursor: pointer;
 
     img {
