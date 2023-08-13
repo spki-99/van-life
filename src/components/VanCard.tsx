@@ -1,9 +1,9 @@
-import { Van } from '../pages/Vans';
+import Van from '../business-objects/Van';
 import { StyledCardContainer, StyledVanInfoContainer, StyledVanType } from './styles/VanCard.style';
 
 const VanCard: React.FC<{van: Van}> = (props) => {
     return (
-        <StyledCardContainer>
+        <StyledCardContainer to={'/vans/' + props.van.id}>
             <img src={props.van.imageUrl}/>
             <StyledVanInfoContainer>
                 <h3>{props.van.name}</h3>

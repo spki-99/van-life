@@ -1,23 +1,23 @@
 import { StyledNavbar, StyledHomeLink, StyledLink } from './styles/Navbar.style';
+import { useLocation } from 'react-router-dom';
 
-interface NavbarProps {
-    currentPage: string;
-}
+const Navbar = () => {
+    const location = useLocation();
+    const currentPage = location.pathname.split('/')[1];
 
-const Navbar = (props: NavbarProps) => {
     return (
         <StyledNavbar>
             <StyledHomeLink to='/'>#VANLIFE</StyledHomeLink>
             <div>
                 <StyledLink 
                     to='/about' 
-                    selected={props.currentPage === 'about'}
+                    selected={currentPage === 'about'}
                     >
                         About
                 </StyledLink>
                 <StyledLink
                     to='/vans'
-                    selected={props.currentPage === 'vans'}>
+                    selected={currentPage === 'vans'}>
                         Vans
                 </StyledLink>
             </div>

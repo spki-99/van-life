@@ -13,6 +13,11 @@ const GlobalStyles = createGlobalStyle`
         font-weight: 500;
         color: #161616;
     }
+    
+    button {
+        font-family: Inter;
+        cursor: pointer;
+    }
 `
 
 export default GlobalStyles;
