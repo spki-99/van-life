@@ -1,8 +1,8 @@
-import Van from '../business-objects/Van';
+import Van from '../../business-objects/Van';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { StyledVanType } from '../components/styles/VanCard.style';
-import { StyledVanDetailsContainer, StyledBackButton, StyledHeroImage, StyledRentButton } from '../components/styles/VanDetails.style';
+import { StyledVanType } from '../../components/styles/VanCard.style';
+import { StyledVanDetailsContainer, StyledBackButton, StyledHeroImage, StyledRentButton } from '../../components/styles/VanDetails.style';
 
 const VanDetails = () => {
     const [van, setVan] = useState<Van | null>(null);
@@ -19,7 +19,7 @@ const VanDetails = () => {
         van &&
         <StyledVanDetailsContainer>
             <img src={'../src/assets/back-arrow.png'}/>
-            <StyledBackButton to='/vans'>Back to all vans</StyledBackButton>
+            <StyledBackButton to='..' relative='path'>Back to all vans</StyledBackButton>
             <StyledHeroImage src={van.imageUrl}/>
             <StyledVanType type={van.type}>{van.type}</StyledVanType>
             <h1>{van.name}</h1>
