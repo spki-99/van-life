@@ -14,6 +14,7 @@ import HostVanDetailsLayout from './HostVanDetailsLayout';
 import HostVanDetails from '../pages/Host/HostVans/HostVansDetails/HostVanDetails';
 import HostVanPricing from '../pages/Host/HostVans/HostVansDetails/HostVanPricing';
 import HostVanPhotos from '../pages/Host/HostVans/HostVansDetails/HostVanPhotos';
+import NotFound from '../pages/NotFound';
 
 import '../server'
 
@@ -38,6 +39,7 @@ export default function App() {
                         </Route>
                         <Route path='reviews' element={<Reviews/>}/>
                     </Route>
+                    <Route path='*'element={<NotFound/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
