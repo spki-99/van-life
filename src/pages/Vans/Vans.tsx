@@ -2,32 +2,14 @@ import { useState, useEffect } from 'react';
 import { StyledVansContent, StyledFiltersContainer, StyledFilters, StyledCardsContainer, StyledFilter, StyledClearFilters } from '../../components/styles/Vans.style';
 import Van from '../../business-objects/Van';
 import VanCard from '../../components/VanCard';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLoaderData } from 'react-router-dom';
 import { getVans } from '../../api';
 
+export const loader = () => getVans();
 const Vans = () => {
-    const [vans , setVans] = useState<Van[]>([]);
     const [queryParams, setQueryParams] = useSearchParams();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null>(null)
+    const vans = useLoaderData() as Van[];
 
-    useEffect(() => {
-        const load = async () => { 
-            setLoading(true);
-            try {
-                const loadedVans = await getVans() 
-                setVans(loadedVans);
-            }
-            catch(error) {
-                if (error instanceof Error) {
-                    setError(error);
-                }
-            }
-            setLoading(false);
-        };
-        load();
-    }, []);
-    
     const typeFilter = queryParams.get('type');
     const filteredVans = typeFilter ? vans.filter(van => van.type.toLowerCase() === typeFilter) : vans;
     const vanCards = filteredVans.map(van => <VanCard key={van.id} van={van} query={queryParams.toString()}/>);
@@ -42,14 +24,6 @@ const Vans = () => {
             }
             return prevParams;
         })
-    }
-
-    if (loading) {
-        return <h1>Loading...</h1>
-    }
-
-    if (error) {
-        return <h1>There was an error: {error.message}</h1>
     }
 
     return (
