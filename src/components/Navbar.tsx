@@ -1,26 +1,31 @@
-import { StyledNavbar, StyledHomeLink, StyledLink } from './styles/Navbar.style';
-import { useLocation } from 'react-router-dom';
+import { StyledNavbar, StyledHomeLink, StyledLink, StyledLinksContainer } from './styles/Navbar.style';
+
+export const activeStyle = {
+    color: '#161616',
+    textDecoration: 'underline'
+}
 
 const Navbar = () => {
-    const location = useLocation();
-    const currentPage = location.pathname.split('/')[1];
-
     return (
         <StyledNavbar>
-            <StyledHomeLink to='/'>#VANLIFE</StyledHomeLink>
-            <div>
+            <StyledHomeLink to='.'>#VANLIFE</StyledHomeLink>
+            <StyledLinksContainer>
+                <StyledLink
+                    to='host'
+                    style={({isActive})=> isActive ? activeStyle : {} }>
+                        Host
+                </StyledLink>
                 <StyledLink 
-                    to='/about' 
-                    selected={currentPage === 'about'}
-                    >
+                    to='about' 
+                    style={({isActive})=> isActive ? activeStyle : {} }>
                         About
                 </StyledLink>
                 <StyledLink
-                    to='/vans'
-                    selected={currentPage === 'vans'}>
+                    to='vans'
+                    style={({isActive})=> isActive ? activeStyle : {} }>
                         Vans
                 </StyledLink>
-            </div>
+            </StyledLinksContainer>
         </StyledNavbar>
     )
 }

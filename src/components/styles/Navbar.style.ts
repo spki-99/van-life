@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export const StyledNavbar = styled.div`
     display: flex;
@@ -17,10 +17,20 @@ export const StyledHomeLink = styled(Link)`
     color: black;
 `
 
-export const StyledLink = styled(Link)<{selected: boolean}>`
-    text-decoration: ${props => props.selected ? 'underline' : 'none'};
-    color: ${props => props.selected ? '#161616' : '#4D4D4D'};
+export const StyledLinksContainer = styled.div`
+    display: flex;
+    gap: 23px;
+`
+
+export const StyledLink = styled(NavLink)`
+    display: inline-block;
+    text-decoration: none;
+    color: #4D4D4D;
     font-weight: 600;
     font-size: 16px;
-    margin-left: 13px;
+
+    &:hover {
+        color: #161616;
+        text-decoration: underline;
+    }
 `

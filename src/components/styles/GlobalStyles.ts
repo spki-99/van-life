@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
         font-size: 16px;
         font-weight: 500;
         color: #161616;
+        background-color: #FFF7ED;
     }
     
     button {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { StyledVansContent, StyledFiltersContainer, StyledFilters, StyledCardsContainer } from '../components/styles/Vans.style';
-import Van from '../business-objects/Van';
-import VanCard from '../components/VanCard';
+import { StyledVansContent, StyledFiltersContainer, StyledFilters, StyledCardsContainer } from '../../components/styles/Vans.style';
+import Van from '../../business-objects/Van';
+import VanCard from '../../components/VanCard';
 
 const Vans = () => {
     const [vans , setVans] = useState<Van[]>([]);
@@ -12,7 +12,7 @@ const Vans = () => {
             .then(data => { setVans(data.vans) });
     }, []);
     
-    const vanCards = vans.map((van, index) => <VanCard key={index} van={van}/>);
+    const vanCards = vans.map(van => <VanCard key={van.id} van={van}/>);
 
     return (
         <StyledVansContent>
