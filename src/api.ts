@@ -1,3 +1,10 @@
+import Van from "./business-objects/Van";
+
+export interface ApiError {
+    message: string,
+    statusText: string,
+    status: string
+}
 
 export async function getVans() {
     const response = await fetch('/api/vans');
@@ -9,5 +16,5 @@ export async function getVans() {
         }
     }
     const data = await response.json();
-    return data.vans
+    return data.vans as Van[]
 }
