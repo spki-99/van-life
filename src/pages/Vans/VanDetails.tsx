@@ -1,5 +1,5 @@
 import Van from '../../business-objects/Van';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { StyledVanType } from '../../components/styles/VanCard.style';
 import { StyledVanDetailsContainer, StyledBackButton, StyledHeroImage, StyledRentButton } from '../../components/styles/VanDetails.style';
@@ -7,6 +7,8 @@ import { StyledVanDetailsContainer, StyledBackButton, StyledHeroImage, StyledRen
 const VanDetails = () => {
     const [van, setVan] = useState<Van | null>(null);
     const params = useParams();
+    const queryString = useLocation().state.query;
+    const typeFilter = new URLSearchParams(queryString).get('type');
     
     useEffect(() => {
         if (params.id === undefined) { return }
@@ -19,7 +21,11 @@ const VanDetails = () => {
         van &&
         <StyledVanDetailsContainer>
             <img src={'../src/assets/back-arrow.png'}/>
-            <StyledBackButton to='..' relative='path'>Back to all vans</StyledBackButton>
+            <StyledBackButton 
+                to={`..${queryString ? `?${queryString}` : '' }`}
+                relative='path'>
+                    Back to {typeFilter ? typeFilter : 'all'} vans
+            </StyledBackButton>
             <StyledHeroImage src={van.imageUrl}/>
             <StyledVanType type={van.type}>{van.type}</StyledVanType>
             <h1>{van.name}</h1>
