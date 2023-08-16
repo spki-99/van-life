@@ -1,55 +1,76 @@
-import { useState } from "react";
-import { Container, InputContainer, SignInButton, CreateAccountButton } from "../components/styles/Login.style";
-import { useLoaderData } from "react-router-dom";
+import { Container, InputContainer, SignInButton, CreateAccountButton, ErrorMessage } from "../components/styles/Login.style";
+import { Form, useActionData, useLoaderData, useNavigation } from "react-router-dom";
+
+import { loginUser } from "../api";
+import { redirect } from "../utils/redirect";
 
 export const loader = ({ request }: { request: Request }) => {
     return new URL(request.url).searchParams.get('message');
 }
 
+export const action = async ({request}: {request: Request}) => {
+    const formData = await request.formData();
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const redirectPath = new URL(request.url).searchParams.get('redirectTo');
+    try {
+        const response = await loginUser(email?.toString() ?? '', password?.toString() ?? '');
+        localStorage.setItem('loggedIn', 'true');
+        return redirect(redirectPath ?? '/host');
+    }
+    catch(error) {
+        return error;
+    }
+}
+
+enum LoginStatus {
+    idle = 'idle',
+    submitting = 'submitting'
+}
+
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-
-    const handleChange = ({target}: {target: EventTarget & HTMLInputElement}) => {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [target.name]: target.value
-        }));
-    }
-
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-    }
-
+    const status = useNavigation().state;
+    const error = useActionData() as Error;
     const message = useLoaderData() as string;
 
     return (
         <Container>
             <h1>
-                {message && message}
-                {message && <><br/><br/></>}
-                Sign in to your account</h1>
-            <form onSubmit={handleSubmit}>
+                Sign in to your account
+            </h1>
+            {error && 
+            <>
+                <br/>
+                <ErrorMessage>
+                    {error.message}
+                </ErrorMessage>
+            </>}
+            {message &&
+                <>
+                    <br/>
+                    <ErrorMessage>
+                        {message}
+                    </ErrorMessage>
+                </>
+            }
+            <Form method='post'>
                 <InputContainer>
                     <input
                         type='email'
-                        onChange={handleChange}
                         placeholder='Email address'
                         name='email'
-                        value={formData.email}
                     />
                     <input
                         type='password'
-                        onChange={handleChange}
                         placeholder='Password'
                         name='password'
-                        value={formData.password}
                     />
                 </InputContainer>
-                <SignInButton>Sign in</SignInButton>
-            </form>
+                <SignInButton 
+                    disabled={status === LoginStatus.submitting}>
+                        {status === LoginStatus.submitting ? 'Signing in...' : 'Sign in'}
+                </SignInButton>
+            </Form>
             <p>
                 Don't have an account? <CreateAccountButton>Create one now</CreateAccountButton>
             </p>

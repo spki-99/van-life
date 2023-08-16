@@ -1,11 +1,11 @@
 
 import { redirect } from './redirect';
 
-export async function requireAuth() {
-    const isLoggedIn = false;
-
+export async function requireAuth(request: Request) {
+    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+    const redirectPath = new URL(request.url).pathname;
     if (!isLoggedIn) {
-        console.log('re');
-        throw redirect('/login?message=You must login first');
+        throw redirect(`/login?message=You must login first&redirectTo=${redirectPath}`);
     }
+    return null;
 }

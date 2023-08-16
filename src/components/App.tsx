@@ -16,7 +16,7 @@ import HostVanPricing from '../pages/Host/HostVans/HostVansDetails/HostVanPricin
 import HostVanPhotos from '../pages/Host/HostVans/HostVansDetails/HostVanPhotos';
 import NotFound from '../pages/NotFound';
 import ErrorMessage from './ErrorMessage';
-import Login, { loader as loginLoader } from '../pages/Login';
+import Login, { loader as loginLoader, action as loginAction } from '../pages/Login';
 import { requireAuth } from '../utils/auth';
 
 import '../server'
@@ -27,36 +27,38 @@ export default function App() {
             <Route index element={<Home/>}/>
             <Route path='about' element={<About/>}/>
             <Route path='vans' loader={vansLoader} errorElement={<ErrorMessage/>} element={<Vans/>}/>
-            <Route path='vans/:id' loader={vanDetailsLoader} element={<VanDetails/>}/>
-            <Route path='login' loader={loginLoader} element={<Login/>}/>
+            <Route path='vans/:id' loader={vanDetailsLoader} errorElement={<ErrorMessage/>} element={<VanDetails/>}/>
+            <Route path='login' loader={loginLoader} action={loginAction} element={<Login/>}/>
             <Route path='host' element={<HostLayout />}>
                 <Route 
                     index 
-                    loader={async () => await requireAuth()}
+                    loader={async ({request}) => await requireAuth(request)}
                     element={<Dashboard />}/>
                 <Route 
                     path='income'
-                    loader={async () => await requireAuth()}
+                    loader={async ({request}) => await requireAuth(request)}
                     element={<Income/>}/>
                 <Route 
                     path ='vans'
                     loader={hostVansLoader}
+                    errorElement={<ErrorMessage/>}
                     element={<HostVans/>}/>
                 <Route
                     path ='vans/:id'
                     loader={hostVanDetailsLoader}
+                    errorElement={<ErrorMessage/>}
                     element={<HostVanDetailsLayout/>}>
                     <Route 
                         index
-                        loader={async () => await requireAuth()}
+                        loader={async ({request}) => await requireAuth(request)}
                         element={<HostVanDetails/>}/>
                     <Route
                         path='pricing'
-                        loader={async () => await requireAuth()}
+                        loader={async ({request}) => await requireAuth(request)}
                         element={<HostVanPricing/>}/>
                     <Route 
                         path='photos'
-                        loader={async () => await requireAuth()}
+                        loader={async ({request}) => await requireAuth(request)}
                         element={<HostVanPhotos/>}/>
                 </Route>
                 <Route path='reviews' element={<Reviews/>}/>

@@ -44,6 +44,11 @@ export const SignInButton = styled.button`
         width: 100%;
         padding: 18px;
         margin-top: 22px;
+
+        &:disabled {
+            background-color: #4D4D4D;
+            cursor: auto;
+        }
 `
 export const CreateAccountButton = styled.button`
         background-color: transparent;
@@ -52,4 +57,8 @@ export const CreateAccountButton = styled.button`
         font-weight: bold;
         border: 0;
         margin-top: 47px;
+`
+
+export const ErrorMessage = styled.h3`
+    color: red;
 `
