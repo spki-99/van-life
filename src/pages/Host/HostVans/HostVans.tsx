@@ -1,18 +1,18 @@
+import { useLoaderData } from 'react-router-dom';
+import { getHostVans } from '../../../api';
 import Van from '../../../business-objects/Van';
 import HostVanCard from '../../../components/HostVanCard';
 import { StyledHostVansContainer }from '../../../components/styles/HostVans.style';
-import { useEffect, useState } from 'react';
+import { requireAuth } from '../../../utils/auth';
+
+export const loader = async () => {
+    await requireAuth();
+    return getHostVans();
+}
 
 const HostVans = () => {
-    const [vans, setVans] = useState<Van[]>([]);
-
-    useEffect(() => {
-        fetch('/api/host/vans')
-            .then(response => response.json())
-            .then(obj => setVans(obj.vans));
-    }, []);
-
-    const vanCards = vans.map(van => <HostVanCard key={van.id} van={van}/> );
+    const vans = useLoaderData() as Van[];
+    const vanCards = vans.map(van => <HostVanCard key={van.id} van={van}/>);
 
     return (
         <StyledHostVansContainer>

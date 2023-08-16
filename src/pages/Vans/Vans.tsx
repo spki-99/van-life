@@ -6,6 +6,7 @@ import { useSearchParams, useLoaderData } from 'react-router-dom';
 import { getVans } from '../../api';
 
 export const loader = () => getVans();
+
 const Vans = () => {
     const [queryParams, setQueryParams] = useSearchParams();
     const vans = useLoaderData() as Van[];

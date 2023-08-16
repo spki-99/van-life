@@ -4,25 +4,22 @@ import { StyledLink, StyledLinksContainer } from './styles/Navbar.style';
 import { StyledVanType } from './styles/VanCard.style';
 import { StyledBackButton } from './styles/VanDetails.style';
 import { activeStyle } from './Navbar';
-import { useState, useEffect } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { Outlet, useLoaderData, useOutletContext } from 'react-router-dom';
+import { getHostVans } from '../api';
+import { requireAuth } from '../utils/auth';
 
 type VanContextType = Van | null
 
-const HostVanDetailsLayout = () => {
-    const [van, setVan] = useState<Van | null>(null);
-    const { id } = useParams();
+export const loader = async ({ params }: any) => { 
+    await requireAuth();
+    return getHostVans(params.id); 
+}
 
-    useEffect(() => {
-        fetch(`/api/host/vans/${id}`)
-            .then(response => response.json())
-            .then(obj => setVan(obj.vans));
-    }, []);
+const HostVanDetailsLayout = () => {
+    const van = useLoaderData() as Van;
 
     return (
-        !van 
-        ? <h1>Loading...</h1> 
-        : <PageContainer>
+        <PageContainer>
             <img src={'../../../src/assets/back-arrow.png'}/>
             <StyledBackButton to='/host/vans'>Back to all vans</StyledBackButton>
             <DetailsContainer>
