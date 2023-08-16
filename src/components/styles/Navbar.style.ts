@@ -20,6 +20,7 @@ export const StyledHomeLink = styled(Link)`
 export const StyledLinksContainer = styled.div`
     display: flex;
     gap: 23px;
+    align-items: center;
 `
 
 export const StyledLink = styled(NavLink)`
@@ -32,5 +33,11 @@ export const StyledLink = styled(NavLink)`
     &:hover {
         color: #161616;
         text-decoration: underline;
+    }
+`
+
+export const StyledUserLink = styled(Link)`
+    img {
+        width: 24px;
     }
 `

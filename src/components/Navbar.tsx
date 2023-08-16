@@ -1,4 +1,5 @@
-import { StyledNavbar, StyledHomeLink, StyledLink, StyledLinksContainer } from './styles/Navbar.style';
+import { StyledNavbar, StyledHomeLink, StyledLink, StyledLinksContainer, StyledUserLink } from './styles/Navbar.style';
+import imageUrl from '/src/assets/user-circle.png'
 
 export const activeStyle = {
     color: '#161616',
@@ -25,6 +26,9 @@ const Navbar = () => {
                     style={({isActive})=> isActive ? activeStyle : {} }>
                         Vans
                 </StyledLink>
+                <StyledUserLink to='login'>
+                    <img src={imageUrl}/>
+                </StyledUserLink>
             </StyledLinksContainer>
         </StyledNavbar>
     )
